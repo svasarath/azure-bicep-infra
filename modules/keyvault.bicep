@@ -4,7 +4,7 @@ param projectName string
 param tags object
 param subnetId string
 
-var kvName = 'kv-${projectName}-${env}-${uniqueString(resourceGroup().id)}'
+var kvName = 'kv-${take(projectName, 5)}-${take(env, 1)}${take(uniqueString(resourceGroup().id), 10)}'
 
 resource kv 'Microsoft.KeyVault/vaults@2023-07-01' = {
   name: kvName
