@@ -1,9 +1,13 @@
 param storageId string
 param principalId string
 
+resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+  id: storageId
+}
+
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(storageId, principalId, 'blob-role')
-  scope: resource(storageId)
+  name: guid(storage.id, principalId, 'blob-role')
+  scope: storage
   properties: {
     roleDefinitionId: subscriptionResourceId(
       'Microsoft.Authorization/roleDefinitions',
