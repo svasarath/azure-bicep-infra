@@ -91,7 +91,7 @@ jobs:
             --template-file ${{ env.BICEP_DIR }}/main.bicep \
             --parameters env=${{ env.DEPLOY_ENV }} \
                          projectName=${{ env.PROJECT_NAME }} \
-                         githubActionsPrincipalId=${{ secrets.GITHUB_ACTIONS_PRINCIPAL_ID }} \
+                         githubActionsPrincipalId=${{ secrets.AZ_ACTIONS_PRINCIPAL_ID }} \
             --output json > whatif.json
           cat whatif.json
 
@@ -197,7 +197,7 @@ jobs:
             --template-file ${{ env.BICEP_DIR }}/main.bicep \
             --parameters env=${{ env.DEPLOY_ENV }} \
                          projectName=${{ env.PROJECT_NAME }} \
-                         githubActionsPrincipalId=${{ secrets.GITHUB_ACTIONS_PRINCIPAL_ID }} \
+                         githubActionsPrincipalId=${{ secrets.AZ_ACTIONS_PRINCIPAL_ID }} \
                          appPrincipalId=${{ secrets.APP_PRINCIPAL_ID }} \
             --query properties.outputs \
             --output json)

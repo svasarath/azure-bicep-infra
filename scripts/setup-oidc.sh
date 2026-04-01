@@ -39,8 +39,8 @@ IDENTITY_PRINCIPAL_ID=$(az identity show \
 
 echo "  Client ID    : $IDENTITY_CLIENT_ID"
 echo "  Principal ID : $IDENTITY_PRINCIPAL_ID"
-
-echo "▶ Granting Contributor + User Access Administrator at subscription scope..."
+: <<'COMMENT'
+#echo "▶ Granting Contributor + User Access Administrator at subscription scope..."
 # Contributor — needed to deploy resources
 az role assignment create \
   --assignee "$IDENTITY_PRINCIPAL_ID" \
@@ -64,7 +64,7 @@ az role assignment create \
 EOF
 )" \
   --condition-version "2.0"
-
+COMMENT
 echo "▶ Creating federated credentials (OIDC)..."
 
 # main branch
