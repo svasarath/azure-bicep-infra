@@ -6,13 +6,13 @@
 # ============================================================
 set -euo pipefail
 
-SUBSCRIPTION_ID="<your-subscription-id>"
-TENANT_ID="<your-tenant-id>"
+SUBSCRIPTION_ID="6b4518c1-fea6-4f9f-8fb0-eff42667708e"
+TENANT_ID="fcf0866e-72e0-40b0-b3ef-222e3aa95e75"
 RESOURCE_GROUP="rg-github-identity"
 LOCATION="eastus"
 IDENTITY_NAME="id-github-actions"
-GITHUB_ORG="<your-github-org>"
-GITHUB_REPO="<your-repo-name>"
+GITHUB_ORG="svasarath"
+GITHUB_REPO="azure-bicep-infra"
 
 echo "▶ Logging in..."
 az login --tenant "$TENANT_ID"
