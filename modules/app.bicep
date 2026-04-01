@@ -6,7 +6,8 @@ param subnetId string
 param keyVaultName string
 param storageAccountName string
 
-var acrName = 'acr${projectName}${env}${uniqueString(resourceGroup().id)}'
+// Max 50 chars, alphanumeric only
+var acrName = 'acr${take(projectName, 8)}${take(env, 4)}${take(uniqueString(resourceGroup().id), 8)}'
 var appPlanName = 'plan-${projectName}-${env}'
 var appName = 'app-${projectName}-${env}'
 
