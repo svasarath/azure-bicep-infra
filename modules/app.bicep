@@ -16,7 +16,7 @@ resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   location: location
   tags: tags
   sku: {
-    name: env == 'prod' ? 'Premium' : 'Basic'
+    name: env == 'prod' ? 'Premium' : 'Standard'
   }
   properties: {
     adminUserEnabled: false
