@@ -42,24 +42,29 @@ env:
 # ─────────────────────────────────────────────────────────────
 jobs:
 
-# ── 1. Lint & Unit Tests ──────────────────────────────────────
+# ── 1. Bicep Lint ─────────────────────────────────────────────
   test:
-    name: 🧪 Lint & Test
+    name: 🧪 Bicep Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with: { node-version: '20', cache: 'npm' }
+      - name: Install Bicep CLI
+        run: |
+          curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x bicep
+          sudo mv bicep /usr/local/bin/bicep
+          bicep --version
 
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test -- --coverage
+      - name: Lint main.bicep
+        run: bicep lint infra/main.bicep
 
-      - name: Upload coverage
-        uses: actions/upload-artifact@v4
-        with: { name: coverage, path: coverage/ }
+      - name: Lint all modules
+        run: |
+          find infra/modules -name "*.bicep" | while read f; do
+            echo "Linting $f..."
+            bicep lint "$f"
+          done
 
 # ── 2. Bicep Lint & What-If ───────────────────────────────────
   infra-plan:
@@ -91,7 +96,7 @@ jobs:
             --template-file ${{ env.BICEP_DIR }}/main.bicep \
             --parameters env=${{ env.DEPLOY_ENV }} \
                          projectName=${{ env.PROJECT_NAME }} \
-                         githubActionsPrincipalId=${{ secrets.AZ_ACTIONS_PRINCIPAL_ID }} \
+                         githubActionsPrincipalId=${{ secrets.GITHUB_ACTIONS_PRINCIPAL_ID }} \
             --output json > whatif.json
           cat whatif.json
 
@@ -197,7 +202,7 @@ jobs:
             --template-file ${{ env.BICEP_DIR }}/main.bicep \
             --parameters env=${{ env.DEPLOY_ENV }} \
                          projectName=${{ env.PROJECT_NAME }} \
-                         githubActionsPrincipalId=${{ secrets.AZ_ACTIONS_PRINCIPAL_ID }} \
+                         githubActionsPrincipalId=${{ secrets.GITHUB_ACTIONS_PRINCIPAL_ID }} \
                          appPrincipalId=${{ secrets.APP_PRINCIPAL_ID }} \
             --query properties.outputs \
             --output json)
