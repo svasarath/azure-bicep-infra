@@ -10,7 +10,7 @@ targetScope = 'subscription'
 param env string = 'dev'
 
 @description('Azure region')
-param location string = 'eastus'
+param location string = 'australia east'
 
 @description('Project / workload name')
 param projectName string = 'myapp'
