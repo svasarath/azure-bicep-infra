@@ -37,7 +37,7 @@ env:
   AZURE_TENANT_ID    : ${{ secrets.AZURE_TENANT_ID }}
   AZURE_SUBSCRIPTION : ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   PROJECT_NAME       : myapp
-  BICEP_DIR          : ./infra
+  BICEP_DIR          : .
 
 # ─────────────────────────────────────────────────────────────
 jobs:
@@ -57,11 +57,11 @@ jobs:
           bicep --version
 
       - name: Lint main.bicep
-        run: bicep lint infra/main.bicep
+        run: bicep lint main.bicep
 
       - name: Lint all modules
         run: |
-          find infra/modules -name "*.bicep" | while read f; do
+          find modules -name "*.bicep" | while read f; do
             echo "Linting $f..."
             bicep lint "$f"
           done
